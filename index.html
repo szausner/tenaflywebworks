@@ -138,9 +138,9 @@
       font-weight:700;
     }
 
-    /* Page title under header */
+    /* Page title under header (bigger/title-sized) */
     .pageTitle{ border-bottom: 1px solid rgba(0,0,0,.04); background: #fff; }
-    .pageTitle .brandTitle{ padding:12px 0; text-align:center; font-weight:900; font-family: Montserrat, Inter, sans-serif; font-size:20px; }
+    .pageTitle .brandTitle{ padding:18px 0; text-align:center; font-weight:900; font-family: Montserrat, Inter, sans-serif; font-size: clamp(28px, 4vw, 48px); letter-spacing: .4px; }
 
     /* ===== Sections ===== */
     section{ padding: 72px 0; }
@@ -491,58 +491,28 @@
     }
     .btnWhite:hover{ transform: translateY(-1px); }
 
-    /* Contact */
-    footer{
-      padding: 26px 0 40px;
-      border-top: 1px solid rgba(0,0,0,.06);
-      background: #fff;
-    }
-    .footerRow{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-    }
-    .footerLinks{
-      display:flex; gap:14px; flex-wrap:wrap;
-      color: var(--muted);
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .copyright{ color: rgba(26,26,26,.55); font-size: 13px; margin-top: 14px; }
+    /* Contact & footer styles (condensed) */
+    .contactGrid{ display:grid; grid-template-columns: .9fr 1.1fr; gap:22px; align-items:flex-start; margin-top:18px; }
+    form{ background:#fff; border:1px solid rgba(26,26,26,.10); border-radius:var(--radius); padding:18px; box-shadow:0 10px 18px rgba(0,0,0,.05); display:grid; gap:12px; }
+    label{ font-weight:700; font-size:13px; color: rgba(26,26,26,.75); }
+    input, textarea{ width:100%; padding:12px; border-radius:14px; border:1px solid rgba(26,26,26,.14); font:inherit; outline:none; background:#fff; }
+    input:focus, textarea:focus{ border-color: rgba(43,127,255,.55); box-shadow: 0 0 0 4px rgba(43,127,255,.12); }
+    textarea{ min-height:120px; resize:vertical; }
+    .fieldRow{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .small{ font-size:14px; }
+    .emailLink{ display:inline-flex; gap:10px; align-items:center; padding:10px 12px; border-radius:14px; border:1px solid rgba(26,26,26,.12); background:rgba(245,245,245,.6); font-weight:800; margin-top:10px; }
+
+    footer{ padding:26px 0 40px; border-top:1px solid rgba(0,0,0,.06); background:#fff; }
+    .footerRow{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-weight:700; font-size:14px; }
+    .copyright{ color: rgba(26,26,26,.55); font-size:13px; margin-top:14px; }
 
     /* ===== Responsive ===== */
-    @media (max-width: 980px){
-      .row{ grid-template-columns: 1fr; }
-      .split{ grid-template-columns: 1fr; }
-      .cards3{ grid-template-columns: 1fr; }
-      .grid6{ grid-template-columns: 1fr 1fr; }
-      .pricing{ grid-template-columns: 1fr; }
-      .addons{ grid-template-columns: 1fr; }
-      .contactGrid{ grid-template-columns: 1fr; }
-    }
-    @media (max-width: 740px){
-      nav ul{ display:none; }
-      .menuBtn{ display:inline-flex; }
-      .grid6{ grid-template-columns: 1fr; }
-      .fieldRow{ grid-template-columns: 1fr; }
-    }
-    /* Mobile menu */
-    .mobileMenu{
-      display:none;
-      padding: 0 0 14px 0;
-    }
+    @media (max-width:980px){ .row{ grid-template-columns:1fr; } .split{ grid-template-columns:1fr; } .cards3{ grid-template-columns:1fr; } .grid6{ grid-template-columns:1fr 1fr; } .pricing{ grid-template-columns:1fr; } .addons{ grid-template-columns:1fr; } .contactGrid{ grid-template-columns:1fr; } }
+    @media (max-width:740px){ nav ul{ display:none; } .menuBtn{ display:inline-flex; } .grid6{ grid-template-columns:1fr; } .fieldRow{ grid-template-columns:1fr; } }
+    .mobileMenu{ display:none; padding:0 0 14px 0; }
     .mobileMenu.open{ display:block; }
-    .mobileMenu a{
-      display:block;
-      padding: 12px 12px;
-      border-radius: 14px;
-      margin-top: 8px;
-      background: rgba(245,245,245,.7);
-      color: var(--text);
-      font-weight: 800;
-    }
+    .mobileMenu a{ display:block; padding:12px 12px; border-radius:14px; margin-top:8px; background:rgba(245,245,245,.7); color:var(--text); font-weight:800; }
   </style>
 </head>
 
@@ -581,7 +551,7 @@
 </header>
 
 <!-- PAGE TITLE -->
-<section class="pageTitle" aria-hidden="false">
+<section class="pageTitle" aria-label="Page title">
   <div class="container">
     <div class="brandTitle">Tenafly WebWorks</div>
   </div>
@@ -886,7 +856,7 @@
           Prefer email? Reach me at:
         </p>
         <a class="emailLink" href="mailto:tenaflywebworks@gmail.com">
-          ✉ tenafly вебworks@gmail.com
+          ✉ tenaflywebworks@gmail.com
         </a>
         <p class="small" style="margin-top:12px;">
           Tip: If you already have a website, include the URL so I can pull a quick audit and mock up a cleaner homepage.
