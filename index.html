@@ -3,1074 +3,567 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tenafly WebWorks | Local Websites for Local Businesses</title>
-  <meta name="description" content="Clean, modern websites for small local businesses. Affordable, fast, and built right here in Tenafly." />
-
-  <!-- Fonts (free) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <title>FocusFlow | Todo + Calendar Organizer</title>
   <style>
-    :root{
-      --primary: #2B7FFF; /* switch to #FF7A00 if you want orange */
-      --text: #1A1A1A;
-      --muted: #5a5f66;
-      --bg: #ffffff;
-      --soft: #F5F5F5;
-      --card: #ffffff;
-      --border: rgba(26,26,26,.12);
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --radius: 18px;
-      --max: 1140px;
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef3ff;
+      --text: #14213d;
+      --muted: #5b6478;
+      --border: #d9deeb;
+      --primary: #2f6df6;
+      --primary-soft: #dfe8ff;
+      --danger: #d93a45;
+      --high: #e04747;
+      --med: #e59c2e;
+      --low: #2f9b51;
+      --radius: 14px;
+      --shadow: 0 8px 28px rgba(20, 33, 61, 0.08);
     }
 
-    *{ box-sizing: border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
-    }
-    a{ color: inherit; text-decoration:none; }
-    img{ max-width:100%; display:block; }
-    .container{ width:min(100%, calc(var(--max) + 48px)); margin:0 auto; padding:0 24px; }
-
-    /* subtle global abstract overlay to liven up background shades */
-    body::before{
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      background:
-        radial-gradient(circle at 10% 15%, rgba(43,127,255,.06), transparent 6%),
-        radial-gradient(circle at 80% 10%, rgba(255,122,0,.04), transparent 10%),
-        radial-gradient(circle at 50% 80%, rgba(122,174,255,.03), transparent 16%);
-      /* very subtle, low-opacity shapes so section backgrounds still read clearly */
-      opacity: 1;
-    }
-
-    /* ===== Header (Sticky) ===== */
-    header{
-      position: sticky;
-      top:0;
-      z-index:1000;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 6px 16px rgba(0,0,0,.05);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-family: Montserrat, Inter, sans-serif;
-      font-weight: 800;
-      letter-spacing: .2px;
-    }
-    .logoMark{
-      width:34px; height:34px; border-radius: 10px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.0) 55%),
-        linear-gradient(135deg, var(--primary), #7aaeff);
-      box-shadow: 0 10px 18px rgba(43,127,255,.25);
-      position: relative;
-      overflow:hidden;
-    }
-    .logoMark::after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,.0), rgba(255,255,255,.55), rgba(255,255,255,.0));
-      transform: translateX(-120%);
-      animation: sheen 6s infinite;
-    }
-    @keyframes sheen{ 0%,70%{transform:translateX(-120%)} 85%{transform:translateX(120%)} 100%{transform:translateX(120%)} }
-
-    nav ul{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      list-style:none;
-      padding:0; margin:0;
-    }
-    nav a{
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 14px;
-      padding:8px 10px;
-      border-radius: 12px;
-    }
-    nav a:hover{ background: rgba(43,127,255,.08); color: var(--text); }
-    .cta{
-      display:flex; align-items:center; gap:10px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 14px;
-      border: 1px solid transparent;
-      cursor:pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btnPrimary{
-      background: var(--primary);
-      color:#fff;
-      box-shadow: 0 10px 18px rgba(43,127,255,.25);
-    }
-    .btnPrimary:hover{ box-shadow: 0 14px 26px rgba(43,127,255,.30); transform: translateY(-1px); }
-    .btnGhost{
-      background: transparent;
-      border-color: rgba(26,26,26,.14);
-      color: var(--text);
-    }
-    .btnGhost:hover{ background: rgba(0,0,0,.04); }
-
-    .menuBtn{
-      display:none;
-      padding:10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(26,26,26,.14);
-      background:#fff;
-      font-weight:700;
-    }
-
-    /* Page title under header (bigger/title-sized) with abstract background */
-    .pageTitle{
-      border-bottom: 1px solid rgba(0,0,0,.04);
-      background: linear-gradient(135deg, rgba(43,127,255,.06), rgba(255,255,255,0) 55%);
-      position: relative;
-      overflow: hidden;
-      min-height: 120px;
-      display:flex;
-      align-items:center;
-    }
-    /* layered abstract shapes behind the title text */
-    .pageTitle::before{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 10% 30%, rgba(43,127,255,.06), transparent 12%),
-        radial-gradient(circle at 85% 40%, rgba(122,174,255,.04), transparent 16%);
-      opacity: 1;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .titleArt{
-      position:absolute;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      opacity: 0.95;
-    }
-    .titleArt svg{ width:100%; height:100%; display:block; opacity:0.16; }
-
-    .pageTitle .container{ position: relative; z-index: 1; }
-    .pageTitle .brandTitle{ padding:18px 0; text-align:center; font-weight:900; font-family: Montserrat, Inter, sans-serif; font-size: clamp(28px, 4vw, 48px); letter-spacing: .4px; }
-
-    /* ===== Sections ===== */
-    section{ padding: 72px 0; }
-    .sectionSoft{ background: var(--soft); }
-    .kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(43,127,255,.10);
-      color: var(--text);
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-    h1,h2,h3{
-      font-family: Montserrat, Inter, sans-serif;
-      margin:0 0 12px 0;
-      letter-spacing: -.3px;
-    }
-    h1{ font-size: clamp(34px, 4vw, 54px); line-height: 1.05; }
-    h2{ font-size: clamp(26px, 3vw, 36px); line-height: 1.15; }
-    p{ margin: 0 0 14px 0; color: var(--muted); }
-    .lead{ font-size: 18px; max-width: 58ch; }
-    .row{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 38px;
-      align-items:center;
-    }
-
-    /* Hero background pattern */
-    .hero{
-      position: relative;
-      overflow:hidden;
-      padding: 84px 0;
-      background: linear-gradient(180deg, rgba(43,127,255,.06), rgba(255,255,255,0) 55%);
-    }
-    .hero::before{
-      content:"";
-      position:absolute; inset:-40px;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(43,127,255,.12), transparent 45%),
-        radial-gradient(circle at 85% 30%, rgba(122,174,255,.16), transparent 45%),
-        radial-gradient(circle at 55% 90%, rgba(43,127,255,.08), transparent 55%);
-      pointer-events:none;
-    }
-    .hero .container{ position:relative; }
-    .bulletRow{
-      display:flex; flex-wrap:wrap; gap:12px;
-      margin: 18px 0 24px;
-      padding:0;
-      list-style:none;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(26,26,26,.12);
-      background: rgba(255,255,255,.85);
-      box-shadow: 0 10px 20px rgba(0,0,0,.05);
-      font-weight: 700;
-      color: var(--text);
-      font-size: 14px;
-    }
-    .check{
-      width:18px; height:18px; border-radius: 6px;
-      background: rgba(43,127,255,.15);
-      display:inline-flex; align-items:center; justify-content:center;
-      color: var(--primary);
-      font-weight: 900;
-      font-family: Montserrat, Inter, sans-serif;
-    }
-    .heroCtas{ display:flex; gap:12px; flex-wrap:wrap; }
-
-    /* Mockup card */
-    .mockup{
-      border-radius: var(--radius);
-      background: #fff;
-      border: 1px solid rgba(26,26,26,.10);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .mockTop{
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 14px 16px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      background: rgba(245,245,245,.6);
-    }
-    .dots{ display:flex; gap:8px; }
-    .dot{ width:10px; height:10px; border-radius: 999px; background: rgba(26,26,26,.18); }
-    .mockLabell{ font-weight:800; font-family: Montserrat, Inter, sans-serif; font-size: 13px; color: rgba(26,26,26,.7); }
-    .mockBody{
-      padding: 18px;
-      display:grid;
-      gap:14px;
-    }
-    .mockHero{
-      height: 120px;
-      border-radius: 14px;
-      background:
-        linear-gradient(135deg, rgba(43,127,255,.18), rgba(122,174,255,.10)),
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.9), transparent 50%);
-      border: 1px solid rgba(26,26,26,.10);
-    }
-    .mockRow{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    .mockCard{
-      height: 86px; border-radius: 14px;
-      background: rgba(245,245,245,.8);
-      border: 1px solid rgba(26,26,26,.10);
-    }
-    .mockBar{
-      height: 18px; border-radius: 999px;
-      background: rgba(26,26,26,.08);
-      width: 70%;
-    }
-    .mockBars{ display:grid; gap:10px; }
-    .mockBar:nth-child(2){ width: 92%; }
-    .mockBar:nth-child(3){ width: 55%; }
-
-    /* What I Build */
-    .cards3{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 28px;
-    }
-    .card{
-      background: var(--card);
-      border: 1px solid rgba(26,26,26,.10);
-      border-radius: var(--radius);
-      padding: 18px;
-      box-shadow: 0 10px 18px rgba(0,0,0,.05);
-    }
-    .icon{
-      width:42px; height:42px; border-radius: 14px;
-      background: rgba(43,127,255,.12);
-      display:flex; align-items:center; justify-content:center;
-      color: var(--primary);
-      font-weight: 900;
-      font-family: Montserrat, Inter, sans-serif;
-      margin-bottom: 12px;
-    }
-    .card h3{ font-size: 18px; margin-bottom: 6px; }
-    .card p{ margin:0; }
-
-    /* Services grid */
-    .grid6{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 24px;
-    }
-    .tile{
-      background:#fff;
-      border: 1px solid rgba(26,26,26,.10);
-      border-radius: var(--radius);
-      padding: 18px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      transition: transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
-    }
-    .tile:hover{
-      transform: translateY(-2px);
-      background: var(--primary);
-      color:#fff;
-      box-shadow: 0 14px 26px rgba(43,127,255,.25);
-    }
-    .tile:hover p{ color: rgba(255,255,255,.85); }
-    .miniIcon{
-      width:38px; height:38px; border-radius: 14px;
-      background: rgba(43,127,255,.10);
-      display:flex; align-items:center; justify-content:center;
-      font-weight: 900;
-      font-family: Montserrat, Inter, sans-serif;
-      color: var(--primary);
-      flex: 0 0 auto;
-    }
-    .tile:hover .miniIcon{
-      background: rgba(255,255,255,.18);
-      color:#fff;
-    }
-    .tile h3{ margin:0 0 6px 0; font-size: 16px; }
-    .tile p{ margin:0; font-size: 14px; }
-
-    /* Pricing */
-    .center{ text-align:center; }
-    .pricing{
-      margin-top: 26px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      align-items: stretch;
-    }
-    .priceCard{
-      position:relative;
-      padding: 20px;
-      border-radius: var(--radius);
-      background:#fff;
-      border: 1px solid rgba(26,26,26,.10);
-      box-shadow: 0 10px 18px rgba(0,0,0,.05);
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-    }
-    .badge{
-      position:absolute;
-      top: 14px; right: 14px;
-      background: rgba(43,127,255,.12);
-      color: var(--text);
-      border: 1px solid rgba(43,127,255,.25);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 12px;
-      font-family: Montserrat, Inter, sans-serif;
-    }
-    .priceTop h3{ margin:0; font-size: 18px; }
-    .price{
-      font-family: Montserrat, Inter, sans-serif;
-      font-weight: 900;
-      font-size: 34px;
-      margin: 2px 0 0;
-      color: var(--text);
-    }
-    .price small{ font-size: 14px; font-weight: 700; color: var(--muted); }
-    .features{
+    * { box-sizing: border-box; }
+    body {
       margin: 0;
-      padding: 0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .features li{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .features .tick{
-      width:18px; height:18px; border-radius: 6px;
-      background: rgba(43,127,255,.12);
-      color: var(--primary);
-      display:inline-flex; align-items:center; justify-content:center;
-      font-weight: 900;
-      flex: 0 0 auto;
-      margin-top: 2px;
-    }
-    .priceCta{ margin-top:auto; }
-
-    /* Add-ons */
-    .addons{
-      margin-top: 20px;
-      display:grid;
-      grid-template-columns: repeat(3, 1 fr);
-      gap: 14px;
-    }
-    .addon{
-      background:#fff;
-      border:1px solid rgba(26,26,26,.10);
-      border-radius: var(--radius);
-      padding: 16px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .addon strong{ display:block; font-weight: 900; font-family: Montserrat, Inter, sans-serif; }
-    .addon span{ color: var(--muted); font-size: 14px; }
-    .addonIcon{
-      width:40px; height:40px; border-radius: 14px;
-      background: rgba(43,127,255,.12);
-      color: var(--primary);
-      display:flex; align-items:center; justify-content:center;
-      font-weight: 900;
-      font-family: Montserrat, Inter, sans-serif;
-      flex: 0 0 auto;
-    }
-
-    /* Why work with me */
-    .split{
-      display:grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 28px;
-      align-items:center;
-    }
-    .portrait{
-      border-radius: var(--radius);
-      border: 1px solid rgba(26,26,26,.10);
-      box-shadow: var(--shadow);
-      background:
-        radial-gradient(circle at 30% 20%, rgba(43,127,255,.18), transparent 55%),
-        linear-gradient(180deg, rgba(245,245,245,.9), #fff);
-      padding: 18px;
-      min-height: 280px;
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      overflow:hidden;
-      position:relative;
-    }
-    .portrait::before{
-      content:"";
-      position:absolute; inset:-60px;
-      background:
-        radial-gradient(circle at 70% 40%, rgba(43,127,255,.18), transparent 55%),
-        radial-gradient(circle at 30% 90%, rgba(122,174,255,.20), transparent 55%);
-      pointer-events:none;
-    }
-    .portraitTag{
-      position:relative;
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.85);
-      border: 1px solid rgba(26,26,26,.10);
-      font-weight: 900;
-      font-family: Montserrat, Inter, sans-serif;
-      box-shadow: 0 10px 18px rgba(0,0,0,.06);
-    }
-
-    /* Free preview banner */
-    .banner{
-      padding: 34px 0;
-      background: var(--primary);
-      color:#fff;
-    }
-    .bannerRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-    }
-    .banner h2{ color:#fff; margin:0; }
-    .banner p{ color: rgba(255,255,255,.85); margin:6px 0 0; }
-    .btnWhite{
-      background:#fff;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      border: 1px solid rgba(255,255,255,.45);
-      box-shadow: 0 12px 22px rgba(0,0,0,.18);
     }
-    .btnWhite:hover{ transform: translateY(-1px); }
 
-    /* Contact & footer styles (condensed) */
-    .contactGrid{ display:grid; grid-template-columns: .9fr 1.1fr; gap:22px; align-items:flex-start; margin-top:18px; }
-    form{ background:#fff; border:1px solid rgba(26,26,26,.10); border-radius:var(--radius); padding:18px; box-shadow:0 10px 18px rgba(0,0,0,.05); display:grid; gap:12px; }
-    label{ font-weight:700; font-size:13px; color: rgba(26,26,26,.75); }
-    input, textarea{ width:100%; padding:12px; border-radius:14px; border:1px solid rgba(26,26,26,.14); font:inherit; outline:none; background:#fff; }
-    input:focus, textarea:focus{ border-color: rgba(43,127,255,.55); box-shadow: 0 0 0 4px rgba(43,127,255,.12); }
-    textarea{ min-height:120px; resize:vertical; }
-    .fieldRow{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .small{ font-size:14px; }
-    .emailLink{ display:inline-flex; gap:10px; align-items:center; padding:10px 12px; border-radius:14px; border:1px solid rgba(26,26,26,.12); background:rgba(245,245,245,.6); font-weight:800; margin-[...]  
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      gap: 20px;
+    }
 
-    footer{ padding:26px 0 40px; border-top:1px solid rgba(0,0,0,.06); background:#fff; }
-    .footerRow{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-    .footerLinks{ display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-weight:700; font-size:14px; }
-    .copyright{ color: rgba(26,26,26,.55); font-size:13px; margin-top:14px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
 
-    /* ===== Responsive ===== */
-    @media (max-width:980px){ .row{ grid-template-columns:1fr; } .split{ grid-template-columns:1fr; } .cards3{ grid-template-columns:1fr; } .grid6{ grid-template-columns:1fr 1fr; } .pricing{ grid-temp[...] }
-    @media (max-width:740px){ nav ul{ display:none; } .menuBtn{ display:inline-flex; } .grid6{ grid-template-columns:1fr; } .fieldRow{ grid-template-columns:1fr; } }
-    .
-.mobileMenu { display: none !important; }
-mobileMenu{ display:none; padding:0 0 14px 0; }
-    .mobileMenu.open{ display:block; }
-    .mobileMenu a{ display:block; padding:12px 12px; border-radius:14px; margin-top:8px; background:rgba(245,245,245,.7); color:var(--text); font-weight:800; }
+    h1, h2, h3 { margin: 0; }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sub { color: var(--muted); margin-top: 6px; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 5px; }
+
+    input, select, textarea, button {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea { min-height: 70px; resize: vertical; }
+
+    .btn {
+      cursor: pointer;
+      font-weight: 700;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn.secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: #fff;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .priority-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .todo-item {
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: 12px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      background: #fff;
+    }
+
+    .todo-item.high { border-left-color: var(--high); }
+    .todo-item.medium { border-left-color: var(--med); }
+    .todo-item.low { border-left-color: var(--low); }
+    .todo-item.done { opacity: 0.65; }
+
+    .todo-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .todo-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .todo-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .calendar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .weekday, .day {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-height: 72px;
+      padding: 6px;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .weekday {
+      min-height: unset;
+      text-align: center;
+      font-weight: 700;
+      background: var(--surface-2);
+    }
+
+    .day.muted { opacity: 0.35; }
+    .day.today { outline: 2px solid var(--primary); }
+    .day.selected { background: var(--primary-soft); }
+
+    .day-number { font-weight: 700; margin-bottom: 4px; }
+
+    .dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .dot.high { background: var(--high); }
+    .dot.medium { background: var(--med); }
+    .dot.low { background: var(--low); }
+
+    .empty { color: var(--muted); font-size: 14px; padding: 8px; }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-
 <body>
-
-<header>
-  <div class="container">
-    <div class="nav">
-      <a class="brand" href="#home" aria-label="Tenafly WebWorks home">
-        <span class="logoMark" aria-hidden="true"></span>
-        <span>Tenafly WebWorks</span>
-      </a>
-
-     
-
-      <div class="cta">
-        <button class="menuBtn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
-        <a class="btn btnPrimary" href="#free-preview">Free Preview</a>
-      </div>
-    </div>
-    
-<!-- PAGE TITLE -->
-<section class="pageTitle" aria-label="Page title">
-  <div class="titleArt" aria-hidden="true">
-    <!-- Abstract SVG art: overlapping shapes and soft diagonal waves -->
-    <svg viewBox="0 0 1200 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="g1" x1="0" x2="1">
-          <stop offset="0%" stop-color="#2B7FFF" stop-opacity="0.45" />
-          <stop offset="100%" stop-color="#7aaeff" stop-opacity="0.2" />
-        </linearGradient>
-        <linearGradient id="g2" x1="0" x2="1">
-          <stop offset="0%" stop-color="#FF7A00" stop-opacity="0.14" />
-          <stop offset="100%" stop-color="#FFC18A" stop-opacity="0.06" />
-        </linearGradient>
-        <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="18" />
-        </filter>
-      </defs>
-
-      <!-- big soft diagonal wave -->
-      <path d="M0,120 C200,40 400,180 600,120 C800,60 1000,160 1200,100 L1200,200 L0,200 Z" fill="url(#g1)" filter="url(#blur)" />
-      style="display:none;" <!-- accent circle -->
-      <circle cx="980" cy="40" r="60" fill="url(#g2)" filter="url(#blur)" />
-      <!-- faint grid of dots -->
-      <g fill="#2B7FFF" fill-opacity="0.06">
-        <circle cx="60" cy="30" r="3" />
-        <circle cx="140" cy="50" r="3" />
-        <circle cx="220" cy="20" r="3" />
-        <circle cx="300" cy="60" r="3" />
-        <circle cx="380" cy="40" r="3" />
-      </g>
-    </svg>
-  </div>
-
-  <div class="container">
-    <div class="brandTitle">Tenafly WebWorks</div>
-  </div>
-</section>
-
-<!-- SECTION 2 — HERO -->
-<section class="hero" id="home">
-  <div class="container">
-    <div class="row">
-      <div>
-        <div class="kicker">Local • Clean • Fast</div>
-        <h1>Clean, modern websites for small local businesses.</h1>
-        <p class="lead">Affordable, fast, and built right here in Tenafly.</p>
-
-        <ul class="bulletRow" aria-label="Key benefits">
-          <li class="pill"><span class="check">✓</span> Mobile-Friendly</li>
-          <li class="pill"><span class="check">✓</span> Affordable Pricing</li>
-          <li class="pill"><span class="check">✓</span> Fast Turnaround</li>
-        </ul>
-
-        <div class="heroCtas">
-          <a class="btn btnPrimary" href="#free-preview">Get a Free Preview</a>
-          <a class="btn btnGhost" href="#pricing">See Pricing</a>
+  <main class="app">
+    <section class="card">
+      <div class="header">
+        <div>
+          <h1>FocusFlow Planner</h1>
+          <p class="sub">Organize todos, categorize work, and manage your calendar in one place.</p>
         </div>
-
-        <p class="small" style="margin-top:16px;">
-          Simple sites. Clear messaging. Built to help local businesses get customers.
-        </p>
       </div>
+    </section>
 
-      <div>
-        <!-- Replace this mockup with real screenshots later if you want -->
-        <div class="mockup" role="img" aria-label="Website preview mockup">
-          <div class="mockTop">
-            <div class="dots" aria-hidden="true">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="mockLabel</div>
-          </div>
-          <div class="mockBody">
-            <div class="mockHero"></div>
-            <div class="mockBars" aria-hidden="true">
-              <div class="mockBar"></div>
-              <div class="mockBar"></div>
-              <div class="mockBar"></div>
-            </div>
-            <div class="mockRow">
-              <div class="mockCard"></div>
-              <div class="mockCard"></div>
-            </div>
-          </div>
-        </div>
-      p class="small" style="margin-top:10px;">()</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="card">
+      <h2>Top Priority (Sorted by Priority + Due Date)</h2>
+      <div id="topPriority" class="priority-stack"></div>
+    </section>
 
-<!-- SECTION 3 — WHAT I OFFER -->
-<section class="sectionSoft" id="about">
-  <div class="container">
-    <div class="center">
-      <h2>What I Build</h2>
-      <p class="lead" style="margin:0 auto;">Everything is designed to look modern, load fast, and be easy for you to update.</p>
-    </div>
-
-    <div class="cards3" style="margin-top:26px;">
+    <section class="layout">
       <div class="card">
-        <div class="icon">✦</div>
-        <h3>Modern Design</h3>
-        <p>Clean layouts, simple navigation, and a smooth flow that makes it easy for customers to take action.</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">📱</div>
-        <h3>Mobile Optimization</h3>
-        <p>70%+ of customers visit from their phone — your site will look great on all devices.</p>
-      </div>
-
-      <div class="card">
-        <div the="icon">⚙</div>
-        <h3>Easy to Update</h3>
-        <p>Built so you stay in control. Update hours, photos, and services without tech headaches.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 4 — SERVICES GRID -->
-<section>
-  <div class="container">
-    <div class="center">
-      <h2>Who I Build Websites For</h2>
-      <p class="lead" style="margin:0 auto;">If you’re a local business that wants something simple and effective, you’re in the right place.</p>
-    </div>
-
-    <div class="grid6">
-      <div class="tile">
-        <div class="miniIcon">✂</div>
-        <div>
-          <h3>Salons & Barbers</h3>
-          <p>Show services, pricing, and booking links with a clean look.</p>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="miniIcon">🍽</div>
-        <div>
-          <h3>Restaurants</h3>
-          <p>Menus, hours, location, and quick calls-to-action.</p>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="miniIcon">🏋</div>
-        <div>
-          <h3>Fitness Trainers</h3>
-          <p>Highlight packages, transformations, and contact info.</p>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="miniIcon">🎓</div>
-        <div>
-          <h3>Tutors & Coaches</h3>
-          <p>Clear services, testimonials, and scheduling options.</p>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="miniIcon">🌿</div>
-        <div>
-          <h3>Landscapers & Detailers</h3>
-          <p>Photo-first layouts that show your work instantly.</p>
-        </div>
-      </div>
-
-      <div class="tile">
-        <div class="miniIcon">🛠</div>
-        <div>
-          <h3>Local Services</h3>
-          <p>Plumbers, electricians, cleaners — simple and effective.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 5 — PRICING -->
-<section class="sectionSoft" id="pricing">
-  <div class="container">
-    <div class="center">
-      <h2>Choose Your Website Package</h2>
-      <p class="lead" style="margin:0 auto;">Pick a package and I’ll handle the design + setup. You’ll get something clean, modern, and ready to use.</p>
-    </div>
-
-    <div class="pricing">
-      <div class="priceCard">
-        <div class="priceTop">
-          <h3>Starter</h3>
-          <div class="price">$150 <small>flat</small></div>
-        </div>
-        <ul class="features">
-          <li><span class="tick">✓</span> 1-page clean website</li>
-          <li><span class="tick">✓</span> Contact form</li>
-          <li><span class="tick">✓</span> Hours + location</li>
-          <li><span class="tick">✓</span> Social media links</li>
-          <li><span class="tick">✓</span> Mobile-friendly</li>
-          <li><span class="tick">✓</span> 2 revisions</li>
-        </ul>
-        <div class="priceCta">
-          <a class="btn btnPrimary" href="#contact">Get Started</a>
-        </div>
-      </div>
-
-      <div class="priceCard" style="border-color: rgba(43,127,255,.35); box-shadow: 0 16px 30px rgba(43,127,255,.18);">
-        <div class="badge">Most Popular</div>
-        <div class="priceTop">
-          <h3>Standard</h3>
-          <div class="price">$250 <small>flat</small></div>
-        </div>
-        <ul class="features">
-          <li><span class="tick">✓</span> 3 pages (Home, About, Contact)</li>
-          <li><span class="tick">✓</span> Full branding + colors</li>
-          <li><span class="tick">✓</span> Service list / menu</li>
-          <li><span class="tick">✓</span> Google Maps integration</li>
-          <li><span class="tick">✓</span> Mobile-friendly</li>
-          <li><span class="tick">✓</span> 3 revisions</li>
-        </ul>
-        <div class="priceCta">
-          <a class="btn btnPrimary" href="#contact">Get Started</a>
-        </div>
-      </div>
-
-      <div class="priceCard">
-        <div class="priceTop">
-          <h3>Premium</h3>
-          <div class="price">$350–$500 <small>flat</small></div>
-        </div>
-        <ul class="features">
-          <li><span class="tick">✓</span> 5 pages</li>
-          <li><span class="tick">✓</span> Photo gallery</li>
-          <li><span class="tick">✓</span> Booking / calendar integration</li>
-          <li><span class="tick">✓</span> SEO basics</li>
-          <li><span class="tick">✓</span> Light animations</li>
-          <li><span class="tick">✓</span> 1 month of updates</li>
-        </ul>
-        <div class="priceCta">
-          <a class="btn btnPrimary" href="#contact">Get Started</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 6 — ADD-ONS -->
-<section>
-  <div class="container">
-    <div class="center">
-      <h2>Optional Add-Ons</h2>
-      <p class="lead" style="margin:0 auto;">Add these if you want extra polish or ongoing help.</p>
-    </div>
-
-    <div class="addons">
-      <div class="addon">
-        <div class="addonIcon">✎</div>
-        <div><strong>Logo redesign</strong><span>$40–$75</span></div>
-      </div>
-      <div class="addon">
-        <div class="addonIcon">☰</div>
-        <div><strong>Menu / service list redesign</strong><span>$40–$80</span></div>
-      </div>
-      <div class="addon">
-        <div class="addonIcon">◎</div>
-        <div><strong>Google Business setup</strong><span>$25–$50</span></div>
-      </div>
-      <div class="addon">
-        <div class="addonIcon">▦</div>
-        <div><strong>Social media templates</strong><span>$10–$20 each</span></div>
-      </div>
-      <div class="addon">
-        <div class="addonIcon">⟳</div>
-        <div><strong>Monthly updates</strong><span>$20–$40 / month</span></div>
-      </div>
-      <div class="addon">
-        <div class="addonIcon">⚡</div>
-        <div><strong>Speed + analytics setup</strong><span>Ask for quote</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 7 — WHY WORK WITH ME (centered, no portrait) -->
-<section class="sectionSoft">
-  <div class="container">
-    <!-- make split a single-column and center its contents -->
-    <div class="split" style="grid-template-columns: 1fr; justify-items:center;">
-      <div style="max-width:820px;">
-        <h2 style="text-align:center;">Why Tenafly WebWorks?</h2>
-        <p class="lead" style="text-align:center;">Local designer who understands local businesses — and keeps everything simple.</p>
-
-        <ul class="features" style="margin-top:10px;">
-          <li><span class="tick">✓</span> Fast, clean, modern designs</li>
-          <li><span class="tick">✓</span> Affordable pricing</li>
-          <li><span class="tick">✓</span> No tech confusion</li>
-          <li><span class="tick">✓</span> Direct communication — not automated support</li>
-          <li><span class="tick">✓</span> Perfect for small businesses that want something simple and effective</li>
-        </ul>
-
-        <div style="margin-top:16px; text-align:center;">
-          <a class="btn btnPrimary" href="#free-preview">Request Free Preview</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 8 — FREE PREVIEW BANNER -->
-<section class="banner" id="free-preview">
-  <div class="container">
-    <div class="bannerRow">
-      <div>
-        <h2>Get a Free Homepage Preview</h2>
-        <p>See your redesigned website before deciding.</p>
-      </div>
-      <a class="btn btnWhite" href="#contact">Show Me My Preview</a>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 9 — CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="center">
-      <h2>Let’s Build Your Website</h2>
-      <p class="lead" style="margin:0 auto;">Fill out the form and I’ll respond within 24 hours.</p>
-    </div>
-
-    <div class="contactGrid">
-      <div>
-        <p class="lead" style="margin-top:0;">
-          Prefer email? Reach me at:
-        </p>
-        <a class="emailLink" href="mailto:tenaflywebworks@gmail.com">
-          ✉ tenaflywebworks@gmail.com
-        </a>
-        <p class="small" style="margin-top:12px;">
-          Tip: If you already have a website, include the URL so I can pull a quick audit and mock up a cleaner homepage.
-        </p>
-
-        <div class="card" style="margin-top:16px;">
-          <h3 style="margin-top:0;">What you’ll get</h3>
-          <p style="margin:0;">A clean homepage preview + suggested layout, colors, and a simple plan to launch fast.</p>
-        </div>
-      </div>
-
-      <!-- Formspree powered form (Formspree ID set) -->
-      <form id="contactForm" action="https://formspree.io/f/xqeqjgdq" method="POST">
-        <!-- optional hidden subject and anti-spam field -->
-        <input type="hidden" name="_subject" value="Website inquiry from Tenafly WebWorks">
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-
-        <div class="fieldRow">
-          <div>
-            <label for="name">Name</label>
-            <input id="name" name="name" autocomplete="name" required />
+        <h2>Add Todo</h2>
+        <form id="todoForm" class="form-grid">
+          <div class="full">
+            <label for="title">Title</label>
+            <input id="title" name="title" required placeholder="e.g., Prepare budget update" />
           </div>
           <div>
-            <label for="biz">Business Name</label>
-            <input id="biz" name="business" required />
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option>Work</option>
+              <option>Personal</option>
+              <option>Health</option>
+              <option>Errands</option>
+              <option>Learning</option>
+            </select>
           </div>
-        </div>
-
-        <div class="fieldRow">
           <div>
-            <label for="email">Email</label>
-            <input id="email" name="_replyto" type="email" autocomplete="email" required />
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
           </div>
           <div>
-            <label for="phone">Phone (optional)</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+            <label for="dueDate">Due date</label>
+            <input id="dueDate" name="dueDate" type="date" required />
           </div>
-        </div>
-
-        <div>
-          <label for="url">Current website URL (if you have one)</label>
-          <input id="url" name="url" type="url" placeholder="https://..." />
-        </div>
-
-        <div>
-          <label for="msg">Message</label>
-          <textarea id="msg" name="message" required placeholder="Tell me what you do, what you want the site to include, and any examples you like."></textarea>
-        </div>
-
-        <button class="btn btnPrimary" type="submit">Submit</button>
-
-    <!--   <p class="<!-- small" style="margin:0; color: rgba(26,26,26,.55);">
-          This snds via Formspree — . If you haven't set up Formspree, sign in to Formspree and confirm the f -->
-        </p>
-
-        <div id="formMessage" role="status" aria-live="polite" style="margin-top:8px; font-weight:700;"></div>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 10 — FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footerRow">
-      <div>
-        <div class="brand" style="gap:10px;">
-          <span class="logoMark" aria-hidden="true"></span>
           <div>
-            <div style="font-weight:900;">Tenafly WebWorks</div>
-            <div style="color:var(--muted); font-weight:700; font-size:14px;">Local websites for local businesses.</div>
+            <label for="dueTime">Due time (optional)</label>
+            <input id="dueTime" name="dueTime" type="time" />
           </div>
+          <div class="full">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" placeholder="Extra details"></textarea>
+          </div>
+          <div class="full">
+            <button class="btn" type="submit">Add Todo</button>
+          </div>
+        </form>
+
+        <div class="toolbar">
+          <select id="categoryFilter" aria-label="Filter category">
+            <option value="all">All Categories</option>
+          </select>
+          <select id="statusFilter" aria-label="Filter status">
+            <option value="all">All Statuses</option>
+            <option value="open">Open</option>
+            <option value="done">Completed</option>
+          </select>
+          <button id="clearCompleted" class="btn secondary" type="button">Clear Completed</button>
         </div>
-        <div class="copyright">© <span id="year"></span> Tenafly WebWorks</div>
+
+        <h3 style="margin-top:14px;">All Todos</h3>
+        <div id="todoList" class="priority-stack"></div>
       </div>
-    </div>
-  </div>
-</footer>
 
-<script>
-  // set current year
-  document.getElementById('year').textContent = new Date().getFullYear();
+      <aside class="card">
+        <h2>Integrated Calendar</h2>
+        <div class="calendar-head">
+          <button id="prevMonth" class="btn secondary" type="button">◀</button>
+          <h3 id="monthLabel"></h3>
+          <button id="nextMonth" class="btn secondary" type="button">▶</button>
+        </div>
+        <div id="calendar" class="calendar-grid"></div>
+        <h3 style="margin-top:14px;">Todos on selected day</h3>
+        <div id="selectedDayTodos" class="priority-stack"></div>
+      </aside>
+    </section>
+  </main>
 
-  // mobile menu toggle
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', open);
-    });
-  }
+  <script>
+    const STORAGE_KEY = 'focusflow.todos.v1';
+    const priorityRank = { high: 0, medium: 1, low: 2 };
 
-  // Formspree submission (AJAX enhanced)
-  const contactForm = document.getElementById('contactForm');
-  const formMessage = document.getElementById('formMessage');
+    const form = document.getElementById('todoForm');
+    const todoListEl = document.getElementById('todoList');
+    const topPriorityEl = document.getElementById('topPriority');
+    const categoryFilterEl = document.getElementById('categoryFilter');
+    const statusFilterEl = document.getElementById('statusFilter');
+    const clearCompletedBtn = document.getElementById('clearCompleted');
+    const calendarEl = document.getElementById('calendar');
+    const monthLabelEl = document.getElementById('monthLabel');
+    const selectedDayTodosEl = document.getElementById('selectedDayTodos');
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
 
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    let todos = loadTodos();
+    let selectedDate = new Date().toISOString().slice(0, 10);
+    let visibleMonth = new Date();
+    visibleMonth.setDate(1);
 
-      // basic anti-spam (hidden field)
-      if (contactForm._gotcha && contactForm._gotcha.value) {
-        // silently ignore spam submissions
+    function loadTodos() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : seedTodos();
+      } catch {
+        return seedTodos();
+      }
+    }
+
+    function seedTodos() {
+      const today = new Date();
+      const in2 = new Date(today); in2.setDate(today.getDate() + 2);
+      const in5 = new Date(today); in5.setDate(today.getDate() + 5);
+      const data = [
+        { id: crypto.randomUUID(), title: 'Finalize project roadmap', category: 'Work', priority: 'high', dueDate: toISO(in2), dueTime: '10:30', notes: 'Review with team lead', done: false },
+        { id: crypto.randomUUID(), title: 'Book dentist appointment', category: 'Personal', priority: 'medium', dueDate: toISO(in5), dueTime: '', notes: '', done: false },
+        { id: crypto.randomUUID(), title: '30-minute workout', category: 'Health', priority: 'low', dueDate: toISO(today), dueTime: '18:00', notes: '', done: false }
+      ];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return data;
+    }
+
+    function saveTodos() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    }
+
+    function toISO(date) {
+      return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+
+    function dueStamp(todo) {
+      return `${todo.dueDate}T${todo.dueTime || '23:59'}`;
+    }
+
+    function sortedTodos(items) {
+      return [...items].sort((a, b) => {
+        const priorityDiff = priorityRank[a.priority] - priorityRank[b.priority];
+        if (priorityDiff !== 0) return priorityDiff;
+        return dueStamp(a).localeCompare(dueStamp(b));
+      });
+    }
+
+    function renderCategoryFilter() {
+      const categories = Array.from(new Set(todos.map(t => t.category))).sort();
+      const current = categoryFilterEl.value || 'all';
+      categoryFilterEl.innerHTML = '<option value="all">All Categories</option>' +
+        categories.map(c => `<option value="${c}">${c}</option>`).join('');
+      categoryFilterEl.value = categories.includes(current) ? current : 'all';
+    }
+
+    function renderTopPriority() {
+      const open = todos.filter(t => !t.done);
+      const top = sortedTodos(open).slice(0, 5);
+      if (!top.length) {
+        topPriorityEl.innerHTML = '<p class="empty">No open tasks. Nice work.</p>';
         return;
       }
+      topPriorityEl.innerHTML = top.map(todoCardHtml).join('');
+      bindTodoButtons(topPriorityEl);
+    }
 
-      const url = contactForm.action;
-      const data = new FormData(contactForm);
+    function renderTodos() {
+      const cat = categoryFilterEl.value;
+      const status = statusFilterEl.value;
+      let filtered = [...todos];
+      if (cat !== 'all') filtered = filtered.filter(t => t.category === cat);
+      if (status === 'open') filtered = filtered.filter(t => !t.done);
+      if (status === 'done') filtered = filtered.filter(t => t.done);
 
-      // show loading state
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const prevBtnText = submitBtn ? submitBtn.textContent : null;
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending…';
+      const sorted = sortedTodos(filtered);
+      if (!sorted.length) {
+        todoListEl.innerHTML = '<p class="empty">No todos match this filter.</p>';
+        return;
       }
-      formMessage.textContent = '';
+      todoListEl.innerHTML = sorted.map(todoCardHtml).join('');
+      bindTodoButtons(todoListEl);
+    }
 
-      try {
-        const res = await fetch(url, {
-          method: 'POST',
-          body: data,
-          headers: {
-            'Accept': 'application/json'
-          }
+    function renderCalendar() {
+      const y = visibleMonth.getFullYear();
+      const m = visibleMonth.getMonth();
+      monthLabelEl.textContent = visibleMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' });
+
+      const first = new Date(y, m, 1);
+      const startDay = first.getDay();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const prevMonthDays = new Date(y, m, 0).getDate();
+      const todayIso = toISO(new Date());
+
+      const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        .map(day => `<div class="weekday">${day}</div>`).join('');
+
+      let daysHtml = '';
+      for (let i = startDay - 1; i >= 0; i--) {
+        const dayNum = prevMonthDays - i;
+        const date = toISO(new Date(y, m - 1, dayNum));
+        daysHtml += dayCellHtml(dayNum, date, true, todayIso);
+      }
+
+      for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+        const date = toISO(new Date(y, m, dayNum));
+        daysHtml += dayCellHtml(dayNum, date, false, todayIso);
+      }
+
+      const cellsUsed = startDay + daysInMonth;
+      const trailing = (7 - (cellsUsed % 7)) % 7;
+      for (let dayNum = 1; dayNum <= trailing; dayNum++) {
+        const date = toISO(new Date(y, m + 1, dayNum));
+        daysHtml += dayCellHtml(dayNum, date, true, todayIso);
+      }
+
+      calendarEl.innerHTML = weekdays + daysHtml;
+      calendarEl.querySelectorAll('.day').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedDate = btn.dataset.date;
+          renderCalendar();
+          renderSelectedDayTodos();
         });
+      });
+    }
 
-        if (res.ok) {
-          formMessage.style.color = 'green';
-          formMessage.textContent = 'Thanks! Your message has been sent. I’ll reply within 24 hours.';
-          contactForm.reset();
-        } else {
-          const result = await res.json().catch(() => ({}));
-          formMessage.style.color = '#b00020';
-          formMessage.textContent = result.error || 'Oops — there was a problem submitting the form. Please try again or email tenaflywebworks@gmail.com.';
-        }
-      } catch (err) {
-        formMessage.style.color = '#b00020';
-        formMessage.textContent = 'Network error — please try again or email tenaflywebworks@gmail.com.';
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = prevBtnText;
-        }
+    function dayCellHtml(dayNum, date, muted, todayIso) {
+      const dayTodos = sortedTodos(todos.filter(t => t.dueDate === date && !t.done)).slice(0, 2);
+      const dots = dayTodos.map(t => `<div><span class="dot ${t.priority}"></span>${escapeHtml(t.title.slice(0, 18))}</div>`).join('');
+      const classes = ['day'];
+      if (muted) classes.push('muted');
+      if (date === todayIso) classes.push('today');
+      if (date === selectedDate) classes.push('selected');
+      return `
+        <button class="${classes.join(' ')}" type="button" data-date="${date}">
+          <div class="day-number">${dayNum}</div>
+          ${dots}
+        </button>
+      `;
+    }
+
+    function renderSelectedDayTodos() {
+      const matches = sortedTodos(todos.filter(t => t.dueDate === selectedDate));
+      if (!matches.length) {
+        selectedDayTodosEl.innerHTML = `<p class="empty">No todos for ${selectedDate}.</p>`;
+        return;
       }
+      selectedDayTodosEl.innerHTML = matches.map(todoCardHtml).join('');
+      bindTodoButtons(selectedDayTodosEl);
+    }
+
+    function todoCardHtml(todo) {
+      const dueText = todo.dueTime ? `${todo.dueDate} ${todo.dueTime}` : todo.dueDate;
+      return `
+        <article class="todo-item ${todo.priority} ${todo.done ? 'done' : ''}">
+          <div class="todo-head">
+            <strong>${escapeHtml(todo.title)}</strong>
+            <span class="chip">${todo.done ? 'Done' : 'Open'}</span>
+          </div>
+          <div class="todo-meta">
+            <span class="chip">${todo.category}</span>
+            <span class="chip">${todo.priority}</span>
+            <span class="chip">Due: ${dueText}</span>
+          </div>
+          ${todo.notes ? `<div>${escapeHtml(todo.notes)}</div>` : ''}
+          <div class="todo-actions">
+            <button class="btn secondary" type="button" data-action="toggle" data-id="${todo.id}">${todo.done ? 'Mark Open' : 'Mark Done'}</button>
+            <button class="btn secondary" type="button" data-action="delete" data-id="${todo.id}">Delete</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function bindTodoButtons(scope) {
+      scope.querySelectorAll('[data-action="toggle"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const todo = todos.find(t => t.id === btn.dataset.id);
+          if (!todo) return;
+          todo.done = !todo.done;
+          saveTodos();
+          rerender();
+        });
+      });
+      scope.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          todos = todos.filter(t => t.id !== btn.dataset.id);
+          saveTodos();
+          rerender();
+        });
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const todo = {
+        id: crypto.randomUUID(),
+        title: String(data.get('title')).trim(),
+        category: String(data.get('category')).trim() || 'General',
+        priority: String(data.get('priority')),
+        dueDate: String(data.get('dueDate')),
+        dueTime: String(data.get('dueTime') || ''),
+        notes: String(data.get('notes') || '').trim(),
+        done: false
+      };
+      if (!todo.title || !todo.dueDate) return;
+      todos.push(todo);
+      saveTodos();
+      form.reset();
+      form.priority.value = 'medium';
+      rerender();
     });
-  }
-</script>
+
+    categoryFilterEl.addEventListener('change', renderTodos);
+    statusFilterEl.addEventListener('change', renderTodos);
+
+    clearCompletedBtn.addEventListener('click', () => {
+      todos = todos.filter(t => !t.done);
+      saveTodos();
+      rerender();
+    });
+
+    prevMonthBtn.addEventListener('click', () => {
+      visibleMonth.setMonth(visibleMonth.getMonth() - 1);
+      renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+      visibleMonth.setMonth(visibleMonth.getMonth() + 1);
+      renderCalendar();
+    });
+
+    function rerender() {
+      renderCategoryFilter();
+      renderTopPriority();
+      renderTodos();
+      renderCalendar();
+      renderSelectedDayTodos();
+    }
+
+    rerender();
+  </script>
 </body>
 </html>
